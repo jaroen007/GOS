@@ -346,7 +346,9 @@ local Menu = MenuElement({name = "Neo Chogath", id = "neochogath", type = MENU, 
 --         champInfo.hasRBuff = false;
 --     end
 -- end
-
+AddLoadCallback(function()
+	print("texttttt");
+end)
 -- AddLoadCallback(function()
 --     _G.GamsteronMenuSpell.isaaa:Value(true);
 --     -- TICK
