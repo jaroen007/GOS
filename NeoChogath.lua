@@ -349,6 +349,21 @@ local Menu = MenuElement({name = "Neo Chogath", id = "neochogath", type = MENU, 
 AddLoadCallback(function()
 	print("texttttt");
 end)
+
+LocalSDK.Orbwalker:CanAttackEvent(function()
+    if (LocalSDK.Spells:CheckSpellDelays({q = 0.250, w = 0.750, e = 0.250, r = 0.500}) and champInfo.hasPBuff == false and champInfo.hasRBuff == false) then
+        return true;
+    end
+    return false;
+end)
+
+LocalSDK.Orbwalker:CanMoveEvent(function()
+    if (LocalSDK.Spells:CheckSpellDelays({q = 0.150, w = 0.600, e = 0.150, r = 0.500}) and champInfo.hasRBuff == false) then
+        return true;
+    end
+    return false;
+end)
+    
 -- AddLoadCallback(function()
 --     _G.GamsteronMenuSpell.isaaa:Value(true);
 --     -- TICK
@@ -445,19 +460,5 @@ end)
     --         Draw.Line(p1.x, p1.y, p2.x, p2.y, 1, Draw.Color(255, 255, 255, 255))
     --         Draw.Line(p1.x, p1.y, p3.x, p3.y, 1, Draw.Color(255, 255, 255, 255))
     --     end
-    -- end)
-    
-    -- LocalSDK.Orbwalker:CanAttackEvent(function()
-    --     if (LocalSDK.Spells:CheckSpellDelays({q = 0.250, w = 0.750, e = 0.250, r = 0.500}) and champInfo.hasPBuff == false and champInfo.hasRBuff == false) then
-    --         return true;
-    --     end
-    --     return false;
-    -- end)
-    
-    -- LocalSDK.Orbwalker:CanMoveEvent(function()
-    --     if (LocalSDK.Spells:CheckSpellDelays({q = 0.150, w = 0.600, e = 0.150, r = 0.500}) and champInfo.hasRBuff == false) then
-    --         return true;
-    --     end
-    --     return false;
     -- end)
 -- end)
