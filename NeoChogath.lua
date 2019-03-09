@@ -8,7 +8,7 @@
 --]======]
 
 -- SCRIPT INFO
-local Version = 0.01;
+local Version = 0.02;
 local ScriptName = "NeoChogath";
 
 -- RETURN IF NOT JHIN
@@ -359,19 +359,19 @@ AddLoadCallback(function()
 	print("texttttt");
 end)
 
--- LocalSDK.Orbwalker:CanAttackEvent(function()
---     if (LocalSDK.Spells:CheckSpellDelays({q = 0.250, w = 0.750, e = 0.250, r = 0.500}) and champInfo.hasPBuff == false and champInfo.hasRBuff == false) then
---         return true;
---     end
---     return false;
--- end)
+LocalSDK.Orbwalker:CanAttackEvent(function()
+    if (LocalSDK.Spells:CheckSpellDelays({q = 0.250, w = 0.750, e = 0.250, r = 0.500}) and champInfo.hasPBuff == false and champInfo.hasRBuff == false) then
+        return true;
+    end
+    return false;
+end)
 
--- LocalSDK.Orbwalker:CanMoveEvent(function()
---     if (LocalSDK.Spells:CheckSpellDelays({q = 0.150, w = 0.600, e = 0.150, r = 0.500}) and champInfo.hasRBuff == false) then
---         return true;
---     end
---     return false;
--- end)
+LocalSDK.Orbwalker:CanMoveEvent(function()
+    if (LocalSDK.Spells:CheckSpellDelays({q = 0.150, w = 0.600, e = 0.150, r = 0.500}) and champInfo.hasRBuff == false) then
+        return true;
+    end
+    return false;
+end)
 
 
 
