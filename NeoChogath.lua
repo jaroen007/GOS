@@ -88,26 +88,24 @@ local HITCHANCE_IMMOBILE = 4;
 
 -- MENU
 local Menu = MenuElement({name = "Neo Chogath", id = "neochogath", type = MENU, leftIcon = "https://raw.githubusercontent.com/jaroen007/GOS/master/Icons/neochogath_avatar.png"})
--- Menu:MenuElement({id = "autor", name = "Auto R -> if jhin has R Buff", value = true})
--- Menu:MenuElement({name = "Q settings", id = "qset", type = MENU})
--- Menu.qset:MenuElement({id = "combo", name = "Combo", value = true})
--- Menu.qset:MenuElement({id = "harass", name = "Harass", value = false})
--- Menu:MenuElement({name = "W settings", id = "wset", type = MENU})
--- Menu.wset:MenuElement({id = "stun", name = "Only if stun (marked targets)", value = true})
--- Menu.wset:MenuElement({id = "combo", name = "Combo", value = true})
--- Menu.wset:MenuElement({id = "harass", name = "Harass", value = false})
--- Menu:MenuElement({name = "E settings", id = "eset", type = MENU})
--- Menu.eset:MenuElement({id = "onlyimmo", name = "Only Immobile", value = true})
--- Menu.eset:MenuElement({id = "combo", name = "Combo", value = true})
--- Menu.eset:MenuElement({id = "harass", name = "Harass", value = false})
--- Menu:MenuElement({name = "Version " .. tostring(Version), type = _G.SPACE, id = "verspace"})
+Menu:MenuElement({name = "Q settings", id = "qset", type = MENU})
+Menu.qset:MenuElement({id = "combo", name = "Combo", value = true})
+Menu.qset:MenuElement({id = "harass", name = "Harass", value = false})
+Menu:MenuElement({name = "W settings", id = "wset", type = MENU})
+Menu.wset:MenuElement({id = "combo", name = "Combo", value = true})
+Menu.wset:MenuElement({id = "harass", name = "Harass", value = false})
+Menu:MenuElement({name = "E settings", id = "eset", type = MENU})
+Menu.eset:MenuElement({id = "combo", name = "Combo", value = true})
+Menu.eset:MenuElement({id = "harass", name = "Harass", value = false})
+Menu:MenuElement({name = "Version " .. tostring(Version), type = _G.SPACE, id = "verspace"})
 
--- JHIN VARIABLES
--- local champInfo =
--- {
---     hasPBuff = false,
---     hasRBuff = false,
--- };
+-- CHOGATH VARIABLES
+local champInfo =
+{
+    hasPBuff = false,
+    hasRBuff = false,
+};
+
 -- local rData =
 -- {
 --     polygon = nil,
@@ -361,19 +359,19 @@ AddLoadCallback(function()
 
 end)
 
--- LocalSDK.Orbwalker:CanAttackEvent(function()
---     if (LocalSDK.Spells:CheckSpellDelays({q = 0.250, w = 0.750, e = 0.250, r = 0.500}) and champInfo.hasPBuff == false and champInfo.hasRBuff == false) then
---         return true;
---     end
---     return false;
--- end)
+LocalSDK.Orbwalker:CanAttackEvent(function()
+    if (LocalSDK.Spells:CheckSpellDelays({q = 0.250, w = 0.750, e = 0.250, r = 0.500}) and champInfo.hasPBuff == false and champInfo.hasRBuff == false) then
+        return true;
+    end
+    return false;
+end)
 
--- LocalSDK.Orbwalker:CanMoveEvent(function()
---     if (LocalSDK.Spells:CheckSpellDelays({q = 0.150, w = 0.600, e = 0.150, r = 0.500}) and champInfo.hasRBuff == false) then
---         return true;
---     end
---     return false;
--- end)
+LocalSDK.Orbwalker:CanMoveEvent(function()
+    if (LocalSDK.Spells:CheckSpellDelays({q = 0.150, w = 0.600, e = 0.150, r = 0.500}) and champInfo.hasRBuff == false) then
+        return true;
+    end
+    return false;
+end)
 
 
 
