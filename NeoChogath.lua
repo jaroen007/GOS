@@ -106,137 +106,138 @@ local champInfo =
     hasRBuff = false,
 };
 
--- local rData =
--- {
---     polygon = nil,
---     canDraw = false,
---     startPos = nil,
---     pos1 = nil,
---     middle = nil,
---     pos2 = nil,
--- };
--- local spellData =
--- {
---     q = {Delay = 0.25, Range = 550, },
---     w = {Delay = 0.75, Range = 3000, Radius = 45, Speed = math.huge, Type = 0, Collision = false, },
---     e = {Delay = 0.25, Range = 750, Radius = 120, Speed = 1600, Type = 1, Collision = false, },
---     r = {Delay = 0.25, Range = 3500, Radius = 80, Speed = 5000, Type = 0, Collision = false, },
--- };
+local rData =
+{
+    polygon = nil,
+    canDraw = false,
+    startPos = nil,
+    pos1 = nil,
+    middle = nil,
+    pos2 = nil,
+};
+
+local spellData =
+{
+    q = {Delay = 0.5, Range = 950, Radius = 175, Collision = false, },
+    w = {Delay = 0.5, Range = 650, Angle = 60, Collision = false, },
+    e = {Delay = 0, Range = 500, Collision = false, },
+    r = {Delay = 0.25, Range = 175, Collision = false, },
+};
 
 -- UTILITES
--- local function Bool(x)
---     return x;
--- end
+local function Bool(x)
+    return x;
+end
 
--- local function Num(x)
---     return x;
--- end
+local function Num(x)
+    return x;
+end
 
--- local function Get2D(p1)
---     if (p1.pos) then
---         p1 = p1.pos;
---     end
---     local result = {x = 0, z = 0};
---     if (p1.x) then
---         result.x = p1.x;
---     end
---     if (p1.z) then
---         result.z = p1.z;
---     elseif (p1.y) then
---         result.z = p1.y;
---     end
---     return result;
--- end
+local function Get2D(p1)
+    if (p1.pos) then
+        p1 = p1.pos;
+    end
+    local result = {x = 0, z = 0};
+    if (p1.x) then
+        result.x = p1.x;
+    end
+    if (p1.z) then
+        result.z = p1.z;
+    elseif (p1.y) then
+        result.z = p1.y;
+    end
+    return result;
+end
 
--- local function GetDistance(p1, p2)
---     p1 = Get2D(p1);
---     p2 = Get2D(p2);
---     local dx = p2.x - p1.x;
---     local dz = p2.z - p1.z;
---     return math.sqrt(dx * dx + dz * dz);
--- end
+local function GetDistance(p1, p2)
+    p1 = Get2D(p1);
+    p2 = Get2D(p2);
+    local dx = p2.x - p1.x;
+    local dz = p2.z - p1.z;
+    return math.sqrt(dx * dx + dz * dz);
+end
 
--- local function InsidePolygon(polygon, point)
---     local result = false
---     local j = #polygon
---     point = Get2D(point);
---     local pointx = point.x
---     local pointz = point.z
---     for i = 1, #polygon do
---         if (polygon[i].z < pointz and polygon[j].z >= pointz or polygon[j].z < pointz and polygon[i].z >= pointz) then
---             if (polygon[i].x + (pointz - polygon[i].z) / (polygon[j].z - polygon[i].z) * (polygon[j].x - polygon[i].x) < pointx) then
---                 result = not result
---             end
---         end
---         j = i
---     end
---     return result
--- end
+local function InsidePolygon(polygon, point)
+    local result = false
+    local j = #polygon
+    point = Get2D(point);
+    local pointx = point.x
+    local pointz = point.z
+    for i = 1, #polygon do
+        if (polygon[i].z < pointz and polygon[j].z >= pointz or polygon[j].z < pointz and polygon[i].z >= pointz) then
+            if (polygon[i].x + (pointz - polygon[i].z) / (polygon[j].z - polygon[i].z) * (polygon[j].x - polygon[i].x) < pointx) then
+                result = not result
+            end
+        end
+        j = i
+    end
+    return result
+end
 
--- local function HasBuff(unit, bName)
---     for i = 0, unit.buffCount do
---         local buff = unit:GetBuff(i)
---         if buff and buff.count > 0 and buff.name:lower() == bName then
---             return true
---         end
---     end
---     return false
--- end
+local function HasBuff(unit, bName)
+    for i = 0, unit.buffCount do
+        local buff = unit:GetBuff(i)
+        if buff and buff.count > 0 and buff.name:lower() == bName then
+            return true
+        end
+    end
+    return false
+end
 
--- local function IsValid(unit, range, bbox)
---     if (unit and unit.valid and unit.isTargetable and unit.alive and unit.visible and unit.networkID and unit.pathing and unit.health > 0) then
---         local bbRange = 0;
---         if (bbox) then
---             bbRange = myHero.boundingRadius + unit.boundingRadius;
---         end
---         if (GetDistance(myHero, unit) < range + bbRange) then
---             return true;
---         end
---     end
---     return false;
--- end
+local function IsValid(unit, range, bbox)
+    if (unit and unit.valid and unit.isTargetable and unit.alive and unit.visible and unit.networkID and unit.pathing and unit.health > 0) then
+        local bbRange = 0;
+        if (bbox) then
+            bbRange = myHero.boundingRadius + unit.boundingRadius;
+        end
+        if (GetDistance(myHero, unit) < range + bbRange) then
+            return true;
+        end
+    end
+    return false;
+end
 
--- local function GetEnemyHeroes(range, bbox)
---     local _EnemyHeroes = {};
---     for i = 1, Game.HeroCount() do
---         local hero = Game.Hero(i);
---         if IsValid(hero, range, bbox) and hero.isEnemy then
---             table.insert(_EnemyHeroes, hero);
---         end
---     end
---     return _EnemyHeroes;
--- end
+local function GetEnemyHeroes(range, bbox)
+    local _EnemyHeroes = {};
+    for i = 1, Game.HeroCount() do
+        local hero = Game.Hero(i);
+        if IsValid(hero, range, bbox) and hero.isEnemy then
+            table.insert(_EnemyHeroes, hero);
+        end
+    end
+    return _EnemyHeroes;
+end
 
--- local function ImmobileTime(unit)
---     local iT = 0
---     for i = 0, unit.buffCount do
---         local buff = unit:GetBuff(i)
---         if buff and buff.count > 0 then
---             local bType = buff.type
---             if bType == 5 or bType == 11 or bType == 29 or bType == 24 or buff.name == "recall" then
---                 local bDuration = buff.duration
---                 if bDuration > iT then
---                     iT = bDuration
---                 end
---             end
---         end
---     end
---     return iT
--- end
+local function ImmobileTime(unit)
+    local iT = 0
+    for i = 0, unit.buffCount do
+        local buff = unit:GetBuff(i)
+        if buff and buff.count > 0 then
+            local bType = buff.type
+            if bType == 5 or bType == 11 or bType == 29 or bType == 24 or buff.name == "recall" then
+                local bDuration = buff.duration
+                if bDuration > iT then
+                    iT = bDuration
+                end
+            end
+        end
+    end
+    return iT
+end
 
--- local function GetImmobileEnemy(range, duration)
---     local num = 0
---     local result = nil
---     local enemyList = GetEnemyHeroes(range, false);
---     for i, hero in pairs(enemyList) do
---         local iT = ImmobileTime(hero)
---         if iT > num and iT >= duration then
---             num = iT
---             result = hero
---         end
---     end
---     return result
--- end
+local function GetImmobileEnemy(range, duration)
+    local num = 0
+    local result = nil
+    local enemyList = GetEnemyHeroes(range, false);
+    for i, hero in pairs(enemyList) do
+        local iT = ImmobileTime(hero)
+        if iT > num and iT >= duration then
+            num = iT
+            result = hero
+        end
+    end
+    return result
+end
 
 -- -- SPELLS
 -- local function IsReadyCombo(spell, menuCombo, menuHarass, delays)
